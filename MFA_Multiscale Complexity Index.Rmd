@@ -1,0 +1,81 @@
+---
+title: "Multiscale Complexity Index (MCI)"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+#### Libraries
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+library(ggthemes)
+library(ggplot2)
+library(gridExtra)
+library(vegan)
+```
+
+#### Load the data
+
+```{r}
+
+Indexes <- read.csv("df_complexity_indexes.csv", sep=",", row.names = 1, h=T)
+
+```
+
+### I. MFA
+```{r}
+
+res.mfa <- MFA(Indexes,
+               group = c(3,3),
+               type =c("s","s"), graph= F)
+
+MFA_ind <- fviz_mfa_ind(res.mfa, ggtheme = theme_few())
+MFA_var <- fviz_mfa_var(res.mfa, ggtheme = theme_few())
+
+```
+
+### III. HCPC
+
+```{r}
+
+res.hcpc <- HCPC(res.mfa, nb.clust=5,graph =F, method="ward")
+
+my_palette <- c("darkolivegreen3","olivedrab4","seagreen4","darkseagreen3","darkslategray4")
+
+MFA_clust <- fviz_cluster(res.hcpc,
+             cex = 1,
+             palette = my_palette,              
+             ggtheme = theme_few(),
+             repel = TRUE,           
+             show.clust.cent = T,     
+             main = "Cluster map")
+
+```
+
+### IV. Compute the Multiscale Complexity Index (MCI)
+
+```{r}
+Coord = as.data.frame(res.mfa$ind$coord)
+Coord$cluster = res.hcpc$data.clust$clust
+
+MCI <- ggplot(Coord) +
+  aes(x = cluster, y = Dim.1, fill = cluster) +
+  geom_boxplot() +
+  scale_fill_manual(values = my_palette) +
+  labs(title = "Multiscale Complexity Index")+
+  theme_few()
+
+```
+
+### V. Plot the MFA and the clusters along the MCI
+```{r}
+grid.arrange(MFA_clust, MFA_var,MCI, nrow = 2, 
+             layout_matrix = cbind(c(1,1),c(2,3)))
+```
+
+
+
