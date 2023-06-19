@@ -10,5 +10,5 @@ You'll find here 3 scripts :
   
   versions: .Rmd, .htlm
 
-PS: your STL files must be watertight models; otherwise, the computation won't be comparable with the models from the study.
+PS: your STL files must be watertight models; otherwise, the computation won't be comparable with the models from the study.  
 PS2: 3D CAD models and point clouds are available on Zenodo to test the script (STL:[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8048071.svg)](https://doi.org/10.5281/zenodo.8048071), TXT:[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8048122.svg)](https://doi.org/10.5281/zenodo.8048122))
