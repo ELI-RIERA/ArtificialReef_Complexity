@@ -1,12 +1,12 @@
-# ArtificialReef_Complexity
+# Artificial Reef Complexity
 Script (Pyhton &amp; R) for Unleashing the Potential of Artificial Reefs Design:  A Purpose-Driven Evaluation of Structural Complexity
 
 You'll find here 3 scripts :
-* Python script to extract parameters from 3D CAD models (STL format) and compute complexity indexes (except fractal dimension).  
+* `Extraction_Of_Parameters & Complexity_Indexes_Computation`Python script to extract parameters from 3D CAD models (STL format) and compute complexity indexes (except fractal dimension).  
   versions: .py, ipynb, .htlm
-* R script to compute fractal dimension on point clouds extracted from 3D CAD models.  
+* `Fractal_Dimension_Computation` R script to compute fractal dimension on point clouds extracted from 3D CAD models.  
   versions: .Rmd, .htlm
-* R script to compute the Multiscale Complexity Indexes (MCI) with the dataframe "df_compleixty_indexes.csv" available on Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8055070.svg)](https://doi.org/10.5281/zenodo.8055070)
+* `MFA_Multiscale-Complexity-Index` R script to compute the Multiscale Complexity Indexes (MCI) with the dataframe "df_compleixty_indexes.csv" available on Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8055070.svg)](https://doi.org/10.5281/zenodo.8055070)
   
   versions: .Rmd, .htlm
 
