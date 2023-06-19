@@ -1,5 +1,5 @@
 # Artificial Reef Complexity
-Script (Pyhton &amp; R) for Unleashing the Potential of Artificial Reefs Design:  A Purpose-Driven Evaluation of Structural Complexity
+Script (Pyhton &amp; R) for the research paper **Unleashing the Potential of Artificial Reefs Design:  A Purpose-Driven Evaluation of Structural Complexity**
 
 You'll find here 3 scripts :
 * `Extraction_Of_Parameters & Complexity_Indexes_Computation`Python script to extract parameters from 3D CAD models (STL format) and compute complexity indexes (except fractal dimension).  
