@@ -1,0 +1,96 @@
+---
+title: "Multiscale Complexity Index (MCI)"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  html_notebook: default
+---
+
+#### Libraries
+```{r}
+library(FactoMineR)
+library(factoextra)
+library(ggthemes)
+library(ggplot2)
+library(gridExtra)
+library(vegan)
+```
+
+#### Load the data
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8055070.svg)](https://doi.org/10.5281/zenodo.8055070)
+
+```{r}
+
+Indexes <- read.csv("df_complexity_indexes.csv", sep=",", row.names = 1, h=T)
+
+```
+
+### I. MFA
+
+Once you have calculated the index on your 3D CAD models, you can bind the results to the table "Indexes" and calculate the MFA with your models as additional individuals (argument: ind.sup). Your models will be plotted on the individual maps, so you can see in which cluster they fall.
+
+```{r}
+
+res.mfa <- MFA(Indexes,
+               # ind.sup = c()
+               group = c(3,3),
+               type = c("s","s"), 
+               graph = F)
+
+group_col <- c("#1c4587","#b45f06")
+
+MFA_var <- fviz_mfa_var(res.mfa, palette = group_col, ggtheme = theme_few())
+
+```
+
+## II. determine the clusters
+
+```{r}
+
+caskm <- cascadeKM(dist(Indexes,"euclidean"), 2, 5, iter = 100, criterion = "ssi")
+plot(caskm)
+
+```
+
+### III. HCPC
+
+```{r}
+
+res.hcpc <- HCPC(res.mfa, nb.clust = 4,graph = F, method = "ward")
+
+my_palette <- alpha(c("#843734","#444444","#a38064","#086464"),0.5)
+
+MFA_clust <- fviz_cluster(res.hcpc,
+             cex = 1,
+             palette = my_palette,              
+             ggtheme = theme_few(),
+             repel = TRUE,           
+             show.clust.cent = T,     
+             main = "Cluster map")
+
+```
+
+### IV. Compute the Multiscale Complexity Index (MCI)
+
+```{r}
+Coord <- as.data.frame(res.mfa$ind$coord)
+Coord$cluster <- res.hcpc$data.clust$clust
+
+MCI <- ggplot(Coord) +
+  aes(x = cluster, y = Dim.1, fill = cluster) +
+  geom_boxplot() +
+  scale_fill_manual(values = my_palette) +
+  labs(title = "Multiscale Complexity Index")+
+  theme_few()
+
+```
+
+### V. Plot the MFA and the clusters along the MCI
+```{r}
+grid.arrange(MFA_clust, 
+             MFA_var, 
+             MCI, 
+             nrow = 2, 
+             layout_matrix = cbind(c(1,1),c(2,3)))
+```
