@@ -28,9 +28,12 @@ Indexes <- read.csv("df_complexity_indexes.csv", sep=",", row.names = 1, h=T)
 
 ### I. MFA
 
-Once you have calculated the index on your 3D CAD models, you can bind the results to the table "Indexes" and calculate the MFA with your models as additional individuals (argument: ind.sup). Your models will be plotted on the individual maps, so you can see in which cluster they fall.
+Once you have calculated the index on your 3D CAD models, you can bind the results to the table "Indexes". Once it's done you can calculate the CI for all the models including yours. You can then calculate the MFA with your models as additional individuals (argument: ind.sup). Your models will be plotted on the individual maps. 
 
 ```{r}
+
+#MyModels <- read.csv("MyModels_df_complexity_indexes.csv", sep=",", row.names = 1, h=T)
+#Indexes <- rbind(Indexes,MyModels)
 
 res.mfa <- MFA(Indexes,
                # ind.sup = c()
@@ -42,18 +45,10 @@ group_col <- c("#1c4587","#b45f06")
 
 MFA_var <- fviz_mfa_var(res.mfa, palette = group_col, ggtheme = theme_few())
 
-```
-
-## II. determine the clusters
-
-```{r}
-
-caskm <- cascadeKM(dist(Indexes,"euclidean"), 2, 5, iter = 100, criterion = "ssi")
-plot(caskm)
 
 ```
 
-### III. HCPC
+### II. HCPC
 
 ```{r}
 
@@ -71,22 +66,7 @@ MFA_clust <- fviz_cluster(res.hcpc,
 
 ```
 
-### IV. Compute the Multiscale Complexity Index (MCI)
-
-```{r}
-Coord <- as.data.frame(res.mfa$ind$coord)
-Coord$cluster <- res.hcpc$data.clust$clust
-
-MCI <- ggplot(Coord) +
-  aes(x = cluster, y = Dim.1, fill = cluster) +
-  geom_boxplot() +
-  scale_fill_manual(values = my_palette) +
-  labs(title = "Multiscale Complexity Index")+
-  theme_few()
-
-```
-
-### V. Plot the MFA and the clusters along the MCI
+### III. Plot the MFA
 ```{r}
 grid.arrange(MFA_clust, 
              MFA_var, 
