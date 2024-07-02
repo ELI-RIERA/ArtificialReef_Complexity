@@ -1,5 +1,5 @@
 ---
-title: "Multiscale Complexity Index (MCI)"
+title: "MFA for Complexity Target points "
 output:
   html_document:
     df_print: paged
